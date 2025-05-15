@@ -1,0 +1,17 @@
+[versions]
+duckdb = "1.2.2.0"
+flyway = "11.8.2"
+flyway-community = "10.18.0"
+junit-jupiter = "5.12.1"
+hsqldb = "2.7.4"
+
+[libraries]
+duckdb = { module = "org.duckdb:duckdb_jdbc", version.ref="duckdb" }
+flyway-core = { module = "org.flywaydb:flyway-core", version.ref = "flyway" }
+flyway-duckdb = { module = "org.flywaydb:flyway-database-duckdb", version.ref = "flyway-community" }
+flyway-hsqldb = { module = "org.flywaydb:flyway-database-hsqldb", version.ref = "flyway" }
+junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit-jupiter" }
+hsqldb = { module = "org.hsqldb:hsqldb", version.ref = "hsqldb" }
+
+[plugins]
+flyway = { id = "org.flywaydb.flyway", version.ref = "flyway" }

@@ -1,0 +1,23 @@
+= DuckDB Java issues
+
+A set of tests aiming to reproduce encountered problems while using DuckDB JDBC driver.
+
+== Requirements
+
+* A JRE 17 or higher
+* *Optional* If you do not want to use Gradle wrapper:
+** JDK 21 or higher
+** Gradle 8.14 or higher
+
+== Run tests
+
+Run `./gradlew build`.
+
+Test report is available at link:build/reports/tests/test/index.html[].
+
+== Sources
+
+Test cases are located in link:src/test/java/com/geomatys/duckdb/test/[].
+
+Tests inherit from link:src/test/java/com/geomatys/duckdb/test/AbstractDuckDbTest.java[AbstractDuckDbTest class]. It creates an ephemeral database for each test.
+The database is filled with test data. SQL definition is in link:src/test/resources/db/migration/[].
