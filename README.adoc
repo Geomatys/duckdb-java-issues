@@ -15,6 +15,18 @@ Run `./gradlew build`.
 
 Test report is available at link:build/reports/tests/test/index.html[].
 
+=== Run a single test
+
+Run `./gradlew test --tests=$TEST_CLASS_NAME`
+
+[source,shell]
+.Example: run test validating test database migration (link:src/test/java/com/geomatys/duckdb/test/MigrationValidationTest.java[source here]):
+----
+./gradlew test --tests=MigrationValidationTest
+----
+
+This will replace the link:build/reports/tests/test/index.html[test report in build directory].
+
 == Sources
 
 Test cases are located in link:src/test/java/com/geomatys/duckdb/test/[].
