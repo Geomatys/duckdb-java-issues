@@ -8,9 +8,15 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
+import java.util.function.Consumer;
 import org.duckdb.DuckDBDriver;
 import org.flywaydb.core.Flyway;
 
+/**
+ * Provides a utility {@link #use(ConnectionConsumer)} function and run code against an ephemeral test database.
+ *
+ * @see #use(boolean, boolean, ConnectionConsumer)
+ */
 public class AbstractDuckDbTest {
 
     private void setup(String jdbcUrl) {
@@ -21,10 +27,26 @@ public class AbstractDuckDbTest {
               .migrate();
     }
 
+    /**
+     * Setup and use an ephemeral file-based Duckdb database.
+     *
+     * @param action User action that receive a {@link Connection } to the database as input.
+     *               Connection is automatically closed after user action is called.
+     *               User action is called exactly once after database setup.
+     */
     final protected void use(ConnectionConsumer action) {
         use(true, true, action);
     }
 
+    /**
+     * Setup and use an ephemeral file-based Duckdb database.
+     *
+     * @param readOnly If true, opens a read-only connection to the database for user action.
+     * @param streamResults If true, enables {@link DuckDBDriver#JDBC_STREAM_RESULTS result data streaming}.
+     * @param action User action that receive a {@link Connection } to the database as input.
+     *               Connection is automatically closed after user action is called.
+     *               User action is called exactly once after database setup.
+     */
     final protected void use(boolean readOnly, boolean streamResults, ConnectionConsumer action) {
         try {
             var file = Files.createTempFile("test", ".duckdb");
@@ -47,6 +69,9 @@ public class AbstractDuckDbTest {
         }
     }
 
+    /**
+     * A specialized {@link Consumer} that receives an SQL connection as input and can raise {@link SQLException SQL specific exceptions.}.
+     */
     @FunctionalInterface
     protected interface ConnectionConsumer {
         void accept(Connection connection) throws SQLException;
