@@ -1,6 +1,5 @@
 plugins {
     java
-    alias(libs.plugins.flyway)
 }
 
 repositories {
