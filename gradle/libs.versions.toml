@@ -15,3 +15,5 @@ hsqldb = { module = "org.hsqldb:hsqldb", version.ref = "hsqldb" }
 
 [plugins]
 flyway = { id = "org.flywaydb.flyway", version.ref = "flyway" }
+jmh-run = { id = "me.champeau.jmh", version.strictly = "0.7.3" }
+jmh-report = { id = "io.morethan.jmhreport", version.strictly = "0.9.6" }
