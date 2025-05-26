@@ -37,10 +37,10 @@ jmh {
     resultsFile = jmhResultFile
 
     // DEBUG CONF
-    warmupIterations = 1
-    iterations = 1
-    fork = 1
-    timeOnIteration = "2s"
+    warmupIterations = 2
+    iterations = 4
+    fork = 2
+    timeOnIteration = "5s"
 }
 
 jmhReport {

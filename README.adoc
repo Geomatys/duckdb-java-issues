@@ -27,9 +27,36 @@ Run `./gradlew test --tests=$TEST_CLASS_NAME`
 
 This will replace the link:build/reports/tests/test/index.html[test report in build directory].
 
-== Sources
+=== Sources
 
 Test cases are located in link:src/test/java/com/geomatys/duckdb/test/[].
 
 Tests inherit from link:src/test/java/com/geomatys/duckdb/test/AbstractDuckDbTest.java[AbstractDuckDbTest class]. It creates an ephemeral database for each test.
 The database is filled with test data. SQL definition is in link:src/test/resources/db/migration/[].
+
+
+== Benchmarks
+
+Benchmark code is located in link:src/jmh/java/com/geomatys/duckdb/test/[].
+
+It uses JMH engine to perform measures.
+
+To run the benchmarks, run `./gradlew jmhReport`.
+It will produce two outputs:
+
+. link:build/results/jmh/results.json[]: JMH JSON formatted results
+. link:build/reports/jmh/index.html[]: An HTML report showing measurements in a graph.
+
+[NOTE]
+====
+By default, benchmarks will be rerun only if the benchmark code is not up to date. To force running, run both commands below:
+
+[source,bash]
+----
+# Force running benchmarks
+./gradlew jmh --rerun
+# Refressh HTML report once benchmark is over
+./gradlew jmhReport
+----
+====
+

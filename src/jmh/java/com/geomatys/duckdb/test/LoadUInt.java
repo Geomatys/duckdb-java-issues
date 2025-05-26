@@ -1,6 +1,7 @@
 package com.geomatys.duckdb.test;
 
 import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.util.Random;
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.Level;
@@ -15,8 +16,8 @@ public class LoadUInt {
     @Param({"1"})
     public int nValues;
 
-    @Param({"true", "false"})
-    public boolean isDirect;
+    @Param({"allocate", "allocateDirect"})
+    public String allocationMethod;
 
     private ByteBuffer buffer;
     private long expectedSum;
@@ -24,9 +25,12 @@ public class LoadUInt {
     @Setup(Level.Trial)
     public void setup() {
         var bufferSize = Integer.BYTES * nValues;
-        buffer = isDirect
+        buffer = allocationMethod == "allocateDirect"
                 ? ByteBuffer.allocateDirect(bufferSize)
                 : ByteBuffer.allocate(bufferSize);
+
+        // Force little endian to match DuckDB behavior
+        buffer.order(ByteOrder.LITTLE_ENDIAN);
 
         final var rand = new Random();
         for (int i = 0; i < nValues; i++) {
@@ -54,6 +58,7 @@ public class LoadUInt {
         buffer.rewind();
         for (int idx = 0; idx < nValues; idx++) {
             ByteBuffer buf = ByteBuffer.allocate(8);
+            buf.order(ByteOrder.LITTLE_ENDIAN);
             buffer.get(buf.array(), 0, Integer.BYTES);
             sum += buf.getLong();
         }
